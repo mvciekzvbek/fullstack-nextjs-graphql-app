@@ -194,8 +194,6 @@ export const getServerSideProps = async ({ req, res }) => {
     },
   });
 
-  console.log(user);
-
   if (user.role !== 'ADMIN') {
     return {
       redirect: {

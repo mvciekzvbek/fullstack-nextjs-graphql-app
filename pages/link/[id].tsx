@@ -84,8 +84,10 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     },
   });
 
-  if (!link) return {
-    notFound: true
+  if (!link) {
+    return {
+      notFound: true,
+    };
   }
 
   return {
