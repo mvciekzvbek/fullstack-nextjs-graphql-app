@@ -1,7 +1,9 @@
 import React from 'react';
 import { AwesomeLink } from '../components/AwesomeLink';
 import { gql, useQuery } from '@apollo/client';
-import type { Link } from '.prisma/client';
+import type { Link as LinkType } from '.prisma/client';
+import Link from 'next/link';
+import {useUser} from "@auth0/nextjs-auth0/client";
 
 const FavoritesQuery = gql`
   query {
@@ -17,8 +19,18 @@ const FavoritesQuery = gql`
 `;
 
 const Favorites = () => {
+  const { user } = useUser();
   const { data, loading, error } = useQuery(FavoritesQuery);
-  if (error) return <p>Oops! Something went wrong {JSON.stringify(error)}</p>;
+  if (!user) {
+    return (
+      <div className="flex items-center justify-center">
+        To view favorite links you need to{' '}
+        <Link href="/api/auth/login" className=" block bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
+          Login
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto my-20 max-w-5xl px-10">
@@ -32,7 +44,7 @@ const Favorites = () => {
               You haven't bookmarked any links yet 👀
             </p>
           ) : (
-            data.favorites.map((link: Link) => (
+            data.favorites.map((link: LinkType) => (
               <div key={link.id}>
                 <AwesomeLink
                   title={link.title}
