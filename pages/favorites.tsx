@@ -3,7 +3,7 @@ import { AwesomeLink } from '../components/AwesomeLink';
 import { gql, useQuery } from '@apollo/client';
 import type { Link as LinkType } from '.prisma/client';
 import Link from 'next/link';
-import {useUser} from "@auth0/nextjs-auth0/client";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 const FavoritesQuery = gql`
   query {
